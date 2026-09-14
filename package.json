@@ -1,0 +1,12 @@
+{
+  "name": "downtime-log",
+  "version": "0.1.0",
+  "description": "Machine downtime logging for Anand Precision Works",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

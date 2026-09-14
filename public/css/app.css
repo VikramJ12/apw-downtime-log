@@ -1,0 +1,67 @@
+@import url("tokens.css");
+
+body {
+  margin: 0;
+  font-family: var(--apw-font);
+  background: var(--apw-concrete);
+  color: var(--apw-ink);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+header {
+  background: var(--apw-ink);
+  color: var(--apw-paper);
+  padding: 14px 24px;
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  border-bottom: 3px solid var(--apw-amber);
+}
+
+header h1 { font-size: 17px; font-weight: 600; margin: 0; letter-spacing: 0.01em; }
+header span { font-size: 13px; opacity: 0.75; }
+header nav { margin-left: auto; }
+header nav a { color: var(--apw-paper); text-decoration: none; margin-left: 18px; font-size: 14px; }
+header nav a:focus-visible { outline: 2px solid var(--apw-amber); outline-offset: 3px; }
+
+main { padding: 24px; max-width: 1000px; }
+
+table { width: 100%; border-collapse: collapse; background: var(--apw-paper); }
+th {
+  text-align: left;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--apw-steel);
+  border-bottom: 2px solid var(--apw-steel);
+  padding: 8px 12px;
+}
+td { padding: 8px 12px; border-bottom: 1px solid var(--apw-concrete); }
+td.minutes { font-variant-numeric: tabular-nums; text-align: right; }
+tr.long td.minutes { color: var(--apw-alert); font-weight: 600; }
+
+form.log-entry { background: var(--apw-paper); padding: 20px; margin-bottom: 24px; }
+label { display: block; font-size: 13px; color: var(--apw-steel); margin-bottom: 4px; }
+input, select {
+  font-family: var(--apw-font);
+  font-size: 15px;
+  padding: 7px 9px;
+  border: 1px solid var(--apw-steel);
+  border-radius: var(--apw-radius);
+  background: var(--apw-paper);
+  color: var(--apw-ink);
+}
+button {
+  font-family: var(--apw-font);
+  font-size: 15px;
+  padding: 8px 18px;
+  background: var(--apw-amber);
+  color: var(--apw-ink);
+  border: none;
+  border-radius: var(--apw-radius);
+  cursor: pointer;
+}
+button:focus-visible { outline: 2px solid var(--apw-ink); outline-offset: 2px; }
+
+.login-shell { max-width: 340px; margin: 80px auto; background: var(--apw-paper); padding: 28px; }
+.error { color: var(--apw-alert); font-size: 14px; min-height: 20px; }

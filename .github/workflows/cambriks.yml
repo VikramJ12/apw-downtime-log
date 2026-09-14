@@ -1,0 +1,24 @@
+# Drop this into the demo repo as .github/workflows/cambriks.yml
+name: Cambriks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+      statuses: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: VikramJ12/cambriks/action@v0.1.0
+        with:
+          target: .
+          provider: groq
+          model: openai/gpt-oss-120b
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}

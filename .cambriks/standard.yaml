@@ -1,0 +1,141 @@
+# Compiled from apw-standards/engineering-standard-v2.md
+#
+# The compiler proposes; a human approves. Nothing here fails a build until
+# someone has read it. The clause text is preserved verbatim so a developer
+# sees the sentence from their own standard, not a generic description.
+
+id: apw-standard-v2
+name: APW Engineering Standard
+version: "2.1"
+source: apw-standards/engineering-standard-v2.md
+compiled_on: "2026-09-10"
+approved_by: "Head of Plant Systems"
+
+controls:
+
+  # ---- Clauses already covered by a rule. No LLM call is made for these. ----
+  - id: APW-STD-2.1
+    clause: "2.1"
+    verification: rule
+    maps_to: APW-SEC-01
+    title: Secrets are read from the environment
+
+  - id: APW-STD-2.2
+    clause: "2.2"
+    verification: rule
+    maps_to: APW-SEC-02
+    title: Database queries are parameterised
+
+  - id: APW-STD-2.3
+    clause: "2.3"
+    verification: rule
+    maps_to: APW-SEC-03
+    title: Every non-public route enforces authentication
+
+  - id: APW-STD-5.1
+    clause: "5.1"
+    verification: rule
+    maps_to: APW-DEP-02
+    title: Every service exposes a health endpoint
+
+  # ---- Clauses with no rule equivalent. These are why the agent exists. ----
+  - id: APW-STD-2.4
+    clause: "2.4"
+    verification: llm
+    pillar: security
+    severity: critical
+    title: Passwords are hashed and never compared in plaintext
+    clause_text: >-
+      Passwords are stored as a salted hash and compared using a constant-time
+      function. Plaintext passwords must never be written to the database,
+      included in a query, or compared with an equality operator.
+    selector: ["**/db.js", "**/routes/auth.js", "**/auth*.js"]
+    guidance: >-
+      Look for password values being inserted into the database, selected in a
+      WHERE clause, or compared with == or ===. A hashing library being absent
+      from the file is itself evidence.
+
+  - id: APW-STD-2.5
+    clause: "2.5"
+    verification: llm
+    pillar: security
+    severity: critical
+    title: Session tokens are cryptographically signed
+    clause_text: >-
+      Session tokens are cryptographically signed and their integrity is
+      verified on every request. Encoding is not signing: a token that a client
+      can decode, edit and re-encode is forgeable and unacceptable.
+    selector: ["**/routes/auth.js", "**/middleware/*.js"]
+    guidance: >-
+      Base64, hex and JSON encoding are not signatures. Check whether the token
+      is produced with an HMAC, a signing library, or a vetted session
+      middleware. Consider what a client could change and re-submit.
+
+  - id: APW-STD-3.1
+    clause: "3.1"
+    verification: llm
+    pillar: architecture
+    severity: high
+    title: Data access goes through the data access module
+    clause_text: >-
+      All plant data access goes through the data access module (db.js). Route
+      handlers must call the exported functions and must not construct or
+      execute queries directly.
+    selector: ["**/routes/*.js"]
+    guidance: >-
+      Flag any route file that builds or executes a query itself — calls such as
+      .prepare, .exec, .run or .all made from a route handler rather than
+      through a function exported by the data access module.
+
+  - id: APW-STD-3.2
+    clause: "3.2"
+    verification: llm
+    pillar: architecture
+    severity: high
+    title: Bulk export and destructive endpoints write an audit entry
+    clause_text: >-
+      Any endpoint that performs a bulk export or a destructive operation
+      records an audit entry naming the requesting user, the operation and the
+      number of records affected.
+    selector: ["**/routes/*.js"]
+    guidance: >-
+      This clause covers administrative export and destruction only: endpoints
+      that dump the full dataset, download records for use outside the system,
+      or delete or purge rows. An ordinary read that returns a page of records
+      to the user who is entitled to see them is NOT a bulk export and must not
+      be reported. Check whether an audit entry is written. Report once per
+      endpoint, at its route registration line.
+
+  - id: APW-STD-4.1
+    clause: "4.1"
+    verification: llm
+    pillar: correctness
+    severity: medium
+    title: Machine identifiers are validated against XXX-NN
+    clause_text: >-
+      Machine identifiers follow the pattern XXX-NN — three uppercase letters, a
+      hyphen, two digits. Identifiers are validated on input and non-conforming
+      values rejected.
+    selector: ["**/routes/*.js"]
+    guidance: >-
+      Find handlers that accept a machine identifier from the request and check
+      whether the format is validated before use. Cover both query parameters
+      and request bodies. Report at the route registration line of the handler,
+      not at the line where the value is read.
+
+  - id: APW-STD-4.2
+    clause: "4.2"
+    verification: llm
+    pillar: correctness
+    severity: medium
+    title: Downtime minutes are validated as a positive integer up to 480
+    clause_text: >-
+      Downtime is recorded in whole minutes. A value must be a positive integer
+      no greater than 480, the length of one shift. Values outside that range
+      are rejected before any write.
+    selector: ["**/routes/*.js"]
+    guidance: >-
+      Find handlers that accept a duration in minutes. Check for a type check
+      and a range check before the value reaches the database. Report at the
+      route registration line of the handler, not at the line where the value
+      is read.

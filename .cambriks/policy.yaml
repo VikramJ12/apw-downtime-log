@@ -1,0 +1,132 @@
+id: apw-baseline-v1
+name: Anand Precision Works — baseline engineering standard
+version: "1.0"
+source: Secure coding standard v2 and Brand guideline v3
+
+# Severity is decided by the control, not by whichever tool happened to fire.
+# That is the point of a policy pack: the company sets the stakes.
+controls:
+  - id: APW-SEC-01
+    pillar: security
+    title: Credentials are never committed to source control
+    severity: critical
+    remediation: >-
+      Read the value from process.env at startup and fail fast if it is unset. Rotate the exposed credential.
+    detectors: [gitleaks:*, cambriks-hardcoded-secret-assignment]
+
+  - id: APW-SEC-02
+    pillar: security
+    title: Database queries are parameterised
+    severity: critical
+    remediation: >-
+      Replace the concatenation with a parameterised query using ? placeholders.
+    detectors: [cambriks-sql-string-concat]
+
+  - id: APW-SEC-03
+    pillar: security
+    title: Every non-public route enforces authentication server-side
+    severity: critical
+    remediation: >-
+      Add requireAuth, and requireSupervisor where the route is administrative, to the route's middleware chain.
+    detectors: [cambriks-express-route-missing-auth]
+
+  - id: APW-SEC-04
+    pillar: security
+    title: Untrusted data is not written to the DOM as HTML
+    severity: medium
+    remediation: >-
+      Build the DOM with createElement and set text via textContent instead of assigning innerHTML.
+    detectors: [cambriks-innerhtml-assignment]
+
+  - id: APW-SEC-05
+    pillar: security
+    title: Authorisation decisions are not taken from client-controlled state
+    severity: high
+    remediation: >-
+      Remove the client-side check and enforce the role on the server for every request.
+    detectors: [cambriks-client-side-authorisation]
+
+  - id: APW-SEC-07
+    pillar: security
+    title: Accounts are never seeded with a literal password
+    severity: high
+    remediation: >-
+      Do not seed accounts outside development. Where seeding is needed, store a salted hash and force a password change on first login.
+    detectors: [cambriks-seeded-plaintext-credential]
+
+  - id: APW-COR-01
+    pillar: correctness
+    title: Promise chains handle rejection
+    severity: low
+    remediation: >-
+      Add a .catch() to the chain and surface the failure in the interface.
+    detectors: [cambriks-unhandled-promise-chain]
+
+  - id: APW-BRAND-01
+    pillar: brand
+    title: Colours come from the approved palette
+    severity: medium
+    remediation: >-
+      Replace the literal with the matching var(--apw-*) token.
+    detectors: [brand-off-palette-colour]
+
+  - id: APW-BRAND-02
+    pillar: brand
+    title: Colours are not hardcoded in inline styles
+    severity: low
+    remediation: >-
+      Move the declaration into a class in the stylesheet and use a token.
+    detectors: [brand-inline-style-colour]
+
+  - id: APW-BRAND-03
+    pillar: brand
+    title: The approved typeface is used throughout
+    severity: low
+    remediation: >-
+      Use var(--apw-font).
+    detectors: [brand-off-brand-typeface]
+
+  - id: APW-DEP-01
+    pillar: deployment
+    title: Environment files are never committed
+    severity: critical
+    remediation: >-
+      Remove the file from git, add it to .gitignore, and rotate every value it contained.
+    detectors: [deploy-committed-env-file]
+
+  - id: APW-DEP-02
+    pillar: deployment
+    title: Services expose a health endpoint
+    severity: medium
+    remediation: >-
+      Add GET /health returning 200 with a dependency check.
+    detectors: [deploy-no-health-endpoint]
+
+  - id: APW-DEP-03
+    pillar: deployment
+    title: Unhandled errors do not reach the client
+    severity: high
+    remediation: >-
+      Add app.use((err, req, res, next) => ...) after the routes; log the error and return a generic message.
+    detectors: [deploy-no-error-handler]
+
+  - id: APW-DEP-04
+    pillar: deployment
+    title: Services shut down gracefully
+    severity: low
+    remediation: >-
+      Handle SIGTERM: stop accepting connections, drain in-flight requests, close the database.
+    detectors: [deploy-no-graceful-shutdown]
+
+  - id: APW-DEP-05
+    pillar: deployment
+    title: Credentials are never written to logs
+    severity: high
+    remediation: >-
+      Remove the statement. Never log credential values.
+    detectors: [deploy-secret-in-log]
+
+gate:
+  # The build fails if any of these counts is exceeded.
+  max_critical: 0
+  max_high: 2

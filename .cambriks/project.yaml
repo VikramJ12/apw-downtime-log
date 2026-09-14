@@ -1,0 +1,17 @@
+# Who and what this audit is about. Lives with the customer's repo, not ours.
+name: Downtime Log
+description: Shop-floor machine downtime logging for the Chakan plant
+repo: https://github.com/VikramJ12/apw-downtime-log
+default_branch: main
+environment: Pre-production
+
+people:
+  - name: Sandesh Chougule
+    role: Engineer
+    detail: Building and maintaining the application
+  - name: Vinay Jirgale
+    role: Engineering Manager
+    detail: Accountable for the deploy decision
+  - name: Head of Plant Systems
+    role: Standard owner
+    detail: Owns the APW Engineering Standard

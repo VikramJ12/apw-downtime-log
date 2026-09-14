@@ -1,0 +1,13 @@
+/* Anand Precision Works — brand tokens.
+   Every colour used in the product must come from this file. */
+:root {
+  --apw-ink: #16232E;
+  --apw-steel: #2E5266;
+  --apw-amber: #D98324;
+  --apw-concrete: #E8E6E1;
+  --apw-paper: #FFFFFF;
+  --apw-alert: #B23A2E;
+
+  --apw-font: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --apw-radius: 2px;
+}

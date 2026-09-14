@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Downtime log — APW</title>
+<link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<header>
+  <h1>Downtime log</h1>
+  <span>Chakan plant</span>
+  <nav>
+    <a href="/" >Today</a>
+    <a href="/admin" id="admin-link" hidden>Supervisor console</a>
+  </nav>
+</header>
+<main>
+  <form class="log-entry" id="entry">
+    <label for="machine">Machine</label>
+    <input id="machine" placeholder="CNC-04">
+    <label for="reason">Reason</label>
+    <input id="reason" placeholder="Tool change">
+    <label for="minutes">Minutes stopped</label>
+    <input id="minutes" type="number">
+    <label for="shift">Shift</label>
+    <select id="shift"><option>A</option><option>B</option><option>C</option></select>
+    <p><button type="submit">Log stoppage</button></p>
+  </form>
+  <table>
+    <thead><tr><th>Machine</th><th>Reason</th><th>Shift</th><th>Minutes</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table>
+</main>
+<script src="/js/app.js"></script>
+</body>
+</html>

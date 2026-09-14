@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sign in — APW Downtime Log</title>
+<link rel="stylesheet" href="/css/app.css">
+</head>
+<body>
+<div class="login-shell">
+  <h1>Downtime log</h1>
+  <p>Anand Precision Works, Chakan plant</p>
+  <label for="u">Employee ID</label>
+  <input id="u" autocomplete="username">
+  <label for="p">Password</label>
+  <input id="p" type="password" autocomplete="current-password">
+  <p class="error" id="err" role="alert"></p>
+  <button id="go">Sign in</button>
+</div>
+<script>
+document.getElementById('go').addEventListener('click', async function () {
+  const res = await fetch('/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      username: document.getElementById('u').value,
+      password: document.getElementById('p').value
+    })
+  });
+  const data = await res.json();
+  if (data.error) { document.getElementById('err').textContent = data.error; return; }
+  localStorage.setItem('apw_role', data.role);
+  window.location.href = '/';
+});
+</script>
+</body>
+</html>

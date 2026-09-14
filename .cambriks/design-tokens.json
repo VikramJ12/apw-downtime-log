@@ -1,0 +1,20 @@
+{
+  "organisation": "Anand Precision Works",
+  "version": "1.0",
+  "source": "Brand guideline v3, approved 2025-04-11",
+  "palette": {
+    "apw-ink": "#16232E",
+    "apw-steel": "#2E5266",
+    "apw-amber": "#D98324",
+    "apw-concrete": "#E8E6E1",
+    "apw-paper": "#FFFFFF",
+    "apw-alert": "#B23A2E"
+  },
+  "rules": {
+    "allowed_colour_values": ["var(--apw-*)", "transparent", "inherit", "currentColor"],
+    "literal_hex_permitted_in": ["public/css/tokens.css"],
+    "inline_style_colours_permitted": false,
+    "typeface": "var(--apw-font)",
+    "border_radius": "var(--apw-radius)"
+  }
+}

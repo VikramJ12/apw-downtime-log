@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Supervisor console</title>
+<link rel="stylesheet" href="/css/admin.css">
+</head>
+<body class="admin">
+<div class="admin-header" style="background: #3498db;">
+  <h1 style="color: #ffffff; margin: 0;">Supervisor Console</h1>
+</div>
+<div style="padding: 20px;">
+  <div class="admin-card">
+    <div class="stat-label">Total downtime this shift</div>
+    <div class="stat-value" id="total">—</div>
+    <span class="badge-warning">Above target</span>
+  </div>
+  <div class="admin-card">
+    <h2 style="color: #2c3e50;">Data management</h2>
+    <button class="btn-export" onclick="doExport()">Export All Records</button>
+    <button class="btn-purge" onclick="doPurge()">Purge Old Records</button>
+  </div>
+  <div class="admin-card">
+    <h2 style="color: #2c3e50;">Users</h2>
+    <ul id="users"></ul>
+  </div>
+</div>
+<script>
+async function doExport() {
+  const res = await fetch('/api/admin/export');
+  const data = await res.json();
+  console.log(data);
+  alert('Exported ' + data.records.length + ' records');
+}
+async function doPurge() {
+  await fetch('/api/admin/purge', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ before: '2025-01-01' })
+  });
+  alert('Purged');
+}
+fetch('/api/admin/users').then(function (r) { return r.json(); }).then(function (users) {
+  document.getElementById('users').innerHTML = users.map(function (u) {
+    return '<li>' + u.username + ' — ' + u.role + '</li>';
+  }).join('');
+});
+fetch('/api/logs').then(function (r) { return r.json(); }).then(function (rows) {
+  var total = rows.reduce(function (a, r) { return a + r.minutes; }, 0);
+  document.getElementById('total').textContent = total + ' min';
+});
+</script>
+</body>
+</html>
