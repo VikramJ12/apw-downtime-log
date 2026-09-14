@@ -1,0 +1,57 @@
+name: Cambriks audit
+description: >-
+  Audit a repository against your engineering standard. Runs entirely inside
+  your runner; source code is never sent anywhere.
+author: Trimiti Innovations
+branding:
+  icon: shield
+  color: purple
+
+inputs:
+  target:
+    description: Directory to audit, relative to the repository root.
+    default: "."
+  policy:
+    description: Policy pack defining controls, severities and gate thresholds.
+    default: .cambriks/policy.yaml
+  standard:
+    description: Compiled prose standard for the reasoning agent. Omit to skip it.
+    default: .cambriks/standard.yaml
+  tokens:
+    description: Design tokens JSON for the brand agent. Omit to skip it.
+    default: .cambriks/design-tokens.json
+  project:
+    description: Project metadata shown in the manager dashboard.
+    default: .cambriks/project.yaml
+  reports-branch:
+    description: Orphan branch the reports are committed to. Never contains code.
+    default: cambriks-reports
+  provider:
+    description: Model provider for the standard agent — anthropic, groq, local.
+    default: groq
+  model:
+    description: Override the provider's default model.
+    default: ""
+  fail-on-gate:
+    description: Fail the job when the gate closes. Set false to report only.
+    default: "true"
+  comment-on-pr:
+    description: Post or update a summary comment on the pull request.
+    default: "true"
+  github-token:
+    description: Token used to push reports and post the commit status.
+    default: ${{ github.token }}
+
+outputs:
+  gate:
+    description: pass or fail.
+  total:
+    description: Number of open findings.
+  score:
+    description: Overall audit score, 0 to 100.
+  report-url:
+    description: Link to the rendered report on the reports branch.
+
+runs:
+  using: docker
+  image: docker://ghcr.io/vikramj12/cambriks:v0
