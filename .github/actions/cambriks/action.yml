@@ -33,8 +33,12 @@ inputs:
     description: Override the provider's default model.
     default: ""
   fail-on-gate:
-    description: Fail the job when the gate closes. Set false to report only.
-    default: "true"
+    description: >-
+      Also fail the workflow job when the gate closes. Off by default: the
+      cambriks/gate check already carries the verdict, and a red job would be
+      indistinguishable from Cambriks itself breaking. Require the gate check
+      in branch protection instead.
+    default: "false"
   comment-on-pr:
     description: Post or update a summary comment on the pull request.
     default: "true"
