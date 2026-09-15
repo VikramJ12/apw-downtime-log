@@ -1,0 +1,16 @@
+[
+  {
+    "at": "2026-09-15T03:10:59+00:00",
+    "ref": "4ae2a47",
+    "label": "main @ 4ae2a47",
+    "total": 49,
+    "score": 0,
+    "passed": false,
+    "counts": {
+      "critical": 16,
+      "high": 10,
+      "medium": 14,
+      "low": 9
+    }
+  }
+]

@@ -1,0 +1,1968 @@
+{
+  "$schema": "https://json.schemastore.org/sarif-2.1.0.json",
+  "version": "2.1.0",
+  "runs": [
+    {
+      "tool": {
+        "driver": {
+          "name": "Cambriks",
+          "version": "0.1.0",
+          "informationUri": "https://cambriks.example",
+          "rules": [
+            {
+              "id": "APW-DEP-01",
+              "name": "APW-DEP-01",
+              "shortDescription": {
+                "text": "Environment files are never committed"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "pillar": "deployment",
+                "cambriksSeverity": "critical",
+                "policyPack": "apw-baseline-v1@1.0",
+                "remediation": "Remove the file from git, add it to .gitignore, and rotate every value it contained."
+              }
+            },
+            {
+              "id": "APW-SEC-01",
+              "name": "APW-SEC-01",
+              "shortDescription": {
+                "text": "Credentials are never committed to source control"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "pillar": "security",
+                "cambriksSeverity": "critical",
+                "policyPack": "apw-baseline-v1@1.0",
+                "remediation": "Read the value from process.env at startup and fail fast if it is unset. Rotate the exposed credential."
+              }
+            },
+            {
+              "id": "APW-STD-2.4",
+              "name": "APW-STD-2.4",
+              "shortDescription": {
+                "text": "standard-2.4"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "pillar": "security",
+                "cambriksSeverity": "critical",
+                "policyPack": "apw-baseline-v1@1.0",
+                "remediation": null
+              }
+            },
+            {
+              "id": "APW-SEC-02",
+              "name": "APW-SEC-02",
+              "shortDescription": {
+                "text": "Database queries are parameterised"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "pillar": "security",
+                "cambriksSeverity": "critical",
+                "policyPack": "apw-baseline-v1@1.0",
+                "remediation": "Replace the concatenation with a parameterised query using ? placeholders."
+              }
+            },
+            {
+              "id": "APW-STD-2.5",
+              "name": "APW-STD-2.5",
+              "shortDescription": {
+                "text": "standard-2.5"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "pillar": "security",
+                "cambriksSeverity": "critical",
+                "policyPack": "apw-baseline-v1@1.0",
+                "remediation": null
+              }
+            },
+            {
+              "id": "APW-SEC-03",
+              "name": "APW-SEC-03",
+              "shortDescription": {
+                "text": "Every non-public route enforces authentication server-side"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "pillar": "security",
+                "cambriksSeverity": "critical",
+                "policyPack": "apw-baseline-v1@1.0",
+                "remediation": "Add requireAuth, and requireSupervisor where the route is administrative, to the route's middleware chain."
+              }
+            },
+            {
+              "id": "APW-SEC-05",
+              "name": "APW-SEC-05",
+              "shortDescription": {
+                "text": "Authorisation decisions are not taken from client-controlled state"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "pillar": "security",
+                "cambriksSeverity": "high",
+                "policyPack": "apw-baseline-v1@1.0",
+                "remediation": "Remove the client-side check and enforce the role on the server for every request."
+              }
+            },
+            {
+              "id": "APW-SEC-07",
+              "name": "APW-SEC-07",
+              "shortDescription": {
+                "text": "Accounts are never seeded with a literal password"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "pillar": "security",
+                "cambriksSeverity": "high",
+                "policyPack": "apw-baseline-v1@1.0",
+                "remediation": "Do not seed accounts outside development. Where seeding is needed, store a salted hash and force a password change on first login."
+              }
+            },
+            {
+              "id": "APW-STD-3.2",
+              "name": "APW-STD-3.2",
+              "shortDescription": {
+                "text": "standard-3.2"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "pillar": "architecture",
+                "cambriksSeverity": "high",
+                "policyPack": "apw-baseline-v1@1.0",
+                "remediation": null
+              }
+            },
+            {
+              "id": "APW-STD-3.1",
+              "name": "APW-STD-3.1",
+              "shortDescription": {
+                "text": "standard-3.1"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "pillar": "architecture",
+                "cambriksSeverity": "high",
+                "policyPack": "apw-baseline-v1@1.0",
+                "remediation": null
+              }
+            },
+            {
+              "id": "APW-DEP-03",
+              "name": "APW-DEP-03",
+              "shortDescription": {
+                "text": "Unhandled errors do not reach the client"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "pillar": "deployment",
+                "cambriksSeverity": "high",
+                "policyPack": "apw-baseline-v1@1.0",
+                "remediation": "Add app.use((err, req, res, next) => ...) after the routes; log the error and return a generic message."
+              }
+            },
+            {
+              "id": "APW-DEP-05",
+              "name": "APW-DEP-05",
+              "shortDescription": {
+                "text": "Credentials are never written to logs"
+              },
+              "defaultConfiguration": {
+                "level": "error"
+              },
+              "properties": {
+                "pillar": "deployment",
+                "cambriksSeverity": "high",
+                "policyPack": "apw-baseline-v1@1.0",
+                "remediation": "Remove the statement. Never log credential values."
+              }
+            },
+            {
+              "id": "APW-BRAND-01",
+              "name": "APW-BRAND-01",
+              "shortDescription": {
+                "text": "Colours come from the approved palette"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "pillar": "brand",
+                "cambriksSeverity": "medium",
+                "policyPack": "apw-baseline-v1@1.0",
+                "remediation": "Replace the literal with the matching var(--apw-*) token."
+              }
+            },
+            {
+              "id": "APW-SEC-04",
+              "name": "APW-SEC-04",
+              "shortDescription": {
+                "text": "Untrusted data is not written to the DOM as HTML"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "pillar": "security",
+                "cambriksSeverity": "medium",
+                "policyPack": "apw-baseline-v1@1.0",
+                "remediation": "Build the DOM with createElement and set text via textContent instead of assigning innerHTML."
+              }
+            },
+            {
+              "id": "APW-STD-4.1",
+              "name": "APW-STD-4.1",
+              "shortDescription": {
+                "text": "standard-4.1"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "pillar": "correctness",
+                "cambriksSeverity": "medium",
+                "policyPack": "apw-baseline-v1@1.0",
+                "remediation": null
+              }
+            },
+            {
+              "id": "APW-STD-4.2",
+              "name": "APW-STD-4.2",
+              "shortDescription": {
+                "text": "standard-4.2"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "pillar": "correctness",
+                "cambriksSeverity": "medium",
+                "policyPack": "apw-baseline-v1@1.0",
+                "remediation": null
+              }
+            },
+            {
+              "id": "APW-DEP-02",
+              "name": "APW-DEP-02",
+              "shortDescription": {
+                "text": "Services expose a health endpoint"
+              },
+              "defaultConfiguration": {
+                "level": "warning"
+              },
+              "properties": {
+                "pillar": "deployment",
+                "cambriksSeverity": "medium",
+                "policyPack": "apw-baseline-v1@1.0",
+                "remediation": "Add GET /health returning 200 with a dependency check."
+              }
+            },
+            {
+              "id": "APW-BRAND-03",
+              "name": "APW-BRAND-03",
+              "shortDescription": {
+                "text": "The approved typeface is used throughout"
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "properties": {
+                "pillar": "brand",
+                "cambriksSeverity": "low",
+                "policyPack": "apw-baseline-v1@1.0",
+                "remediation": "Use var(--apw-font)."
+              }
+            },
+            {
+              "id": "APW-COR-01",
+              "name": "APW-COR-01",
+              "shortDescription": {
+                "text": "Promise chains handle rejection"
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "properties": {
+                "pillar": "correctness",
+                "cambriksSeverity": "low",
+                "policyPack": "apw-baseline-v1@1.0",
+                "remediation": "Add a .catch() to the chain and surface the failure in the interface."
+              }
+            },
+            {
+              "id": "APW-DEP-04",
+              "name": "APW-DEP-04",
+              "shortDescription": {
+                "text": "Services shut down gracefully"
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "properties": {
+                "pillar": "deployment",
+                "cambriksSeverity": "low",
+                "policyPack": "apw-baseline-v1@1.0",
+                "remediation": "Handle SIGTERM: stop accepting connections, drain in-flight requests, close the database."
+              }
+            },
+            {
+              "id": "APW-BRAND-02",
+              "name": "APW-BRAND-02",
+              "shortDescription": {
+                "text": "Colours are not hardcoded in inline styles"
+              },
+              "defaultConfiguration": {
+                "level": "note"
+              },
+              "properties": {
+                "pillar": "brand",
+                "cambriksSeverity": "low",
+                "policyPack": "apw-baseline-v1@1.0",
+                "remediation": "Move the declaration into a class in the stylesheet and use a token."
+              }
+            }
+          ]
+        },
+        "extensions": [
+          {
+            "name": "gitleaks",
+            "version": "detected"
+          },
+          {
+            "name": "semgrep",
+            "version": "detected"
+          },
+          {
+            "name": "cambriks-deployment",
+            "version": "detected"
+          },
+          {
+            "name": "cambriks-brand",
+            "version": "detected"
+          },
+          {
+            "name": "cambriks-llm",
+            "version": "detected"
+          }
+        ]
+      },
+      "properties": {
+        "policyPack": "apw-baseline-v1",
+        "policyPackVersion": "1.0",
+        "policyPackName": "Anand Precision Works \u2014 baseline engineering standard",
+        "gate": {
+          "passed": false,
+          "counts": {
+            "critical": 16,
+            "high": 10,
+            "medium": 14,
+            "low": 9
+          },
+          "reasons": [
+            "16 critical findings exceeds the limit of 0",
+            "10 high findings exceeds the limit of 2"
+          ],
+          "limits": {
+            "max_critical": 0,
+            "max_high": 2
+          }
+        }
+      },
+      "results": [
+        {
+          "ruleId": "APW-DEP-01",
+          "ruleIndex": 0,
+          "level": "error",
+          "message": {
+            "text": ".env is present and not in .gitignore, so its values are in source control. Remove it from git, ignore it, and rotate every value it contains."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": ".env"
+                },
+                "region": {
+                  "startLine": 1
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "353e5ce8e71898be"
+          },
+          "properties": {
+            "pillar": "deployment",
+            "control": "APW-DEP-01",
+            "severity": "critical",
+            "detectedBy": [
+              "cambriks-deployment"
+            ],
+            "nativeRuleId": "deploy-committed-env-file"
+          }
+        },
+        {
+          "ruleId": "APW-SEC-01",
+          "ruleIndex": 1,
+          "level": "error",
+          "message": {
+            "text": "A credential is assigned a string literal in source. Control APW-SEC-01 requires all secrets to come from the environment at runtime."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/config.js"
+                },
+                "region": {
+                  "startLine": 8
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "bacc95138cab61e5"
+          },
+          "properties": {
+            "pillar": "security",
+            "control": "APW-SEC-01",
+            "severity": "critical",
+            "detectedBy": [
+              "semgrep"
+            ],
+            "nativeRuleId": "cambriks-hardcoded-secret-assignment"
+          }
+        },
+        {
+          "ruleId": "APW-SEC-01",
+          "ruleIndex": 1,
+          "level": "error",
+          "message": {
+            "text": "A credential is assigned a string literal in source. Control APW-SEC-01 requires all secrets to come from the environment at runtime."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/config.js"
+                },
+                "region": {
+                  "startLine": 9
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "33cb55e03d1f698f"
+          },
+          "properties": {
+            "pillar": "security",
+            "control": "APW-SEC-01",
+            "severity": "critical",
+            "detectedBy": [
+              "semgrep"
+            ],
+            "nativeRuleId": "cambriks-hardcoded-secret-assignment"
+          }
+        },
+        {
+          "ruleId": "APW-SEC-01",
+          "ruleIndex": 1,
+          "level": "error",
+          "message": {
+            "text": "slack-webhook-url has detected secret for file src/config.js."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/config.js"
+                },
+                "region": {
+                  "startLine": 12
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "0241b4591e70d2fb"
+          },
+          "properties": {
+            "pillar": "security",
+            "control": "APW-SEC-01",
+            "severity": "critical",
+            "detectedBy": [
+              "gitleaks"
+            ],
+            "nativeRuleId": "slack-webhook-url"
+          }
+        },
+        {
+          "ruleId": "APW-SEC-01",
+          "ruleIndex": 1,
+          "level": "error",
+          "message": {
+            "text": "aws-access-token has detected secret for file src/config.js."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/config.js"
+                },
+                "region": {
+                  "startLine": 15
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "096709e3729e25da"
+          },
+          "properties": {
+            "pillar": "security",
+            "control": "APW-SEC-01",
+            "severity": "critical",
+            "detectedBy": [
+              "gitleaks"
+            ],
+            "nativeRuleId": "aws-access-token"
+          }
+        },
+        {
+          "ruleId": "APW-SEC-01",
+          "ruleIndex": 1,
+          "level": "error",
+          "message": {
+            "text": "generic-api-key has detected secret for file src/config.js."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/config.js"
+                },
+                "region": {
+                  "startLine": 16
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "3d3077d617a97974"
+          },
+          "properties": {
+            "pillar": "security",
+            "control": "APW-SEC-01",
+            "severity": "critical",
+            "detectedBy": [
+              "gitleaks",
+              "semgrep"
+            ],
+            "nativeRuleId": "generic-api-key"
+          }
+        },
+        {
+          "ruleId": "APW-STD-2.4",
+          "ruleIndex": 2,
+          "level": "error",
+          "message": {
+            "text": "Clause 2.4 \u2014 Plaintext password is inserted into the database, violating the requirement to store only salted hashes. Fix: Hash the password (e.g., using bcrypt) before calling .run, e.g., const hash = await bcrypt.hash('welcome123', saltRounds); then .run('operator1', hash, 'operator');"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/db.js"
+                },
+                "region": {
+                  "startLine": 28
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "8d116b807532200c"
+          },
+          "properties": {
+            "pillar": "security",
+            "control": "APW-STD-2.4",
+            "severity": "critical",
+            "detectedBy": [
+              "cambriks-llm"
+            ],
+            "nativeRuleId": "standard-2.4"
+          }
+        },
+        {
+          "ruleId": "APW-STD-2.4",
+          "ruleIndex": 2,
+          "level": "error",
+          "message": {
+            "text": "Clause 2.4 \u2014 Plaintext password is inserted into the database for a second user, also violating the hashing requirement. Fix: Hash the password before storing, similar to the first insertion."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/db.js"
+                },
+                "region": {
+                  "startLine": 30
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "46e08fe9b57a852e"
+          },
+          "properties": {
+            "pillar": "security",
+            "control": "APW-STD-2.4",
+            "severity": "critical",
+            "detectedBy": [
+              "cambriks-llm"
+            ],
+            "nativeRuleId": "standard-2.4"
+          }
+        },
+        {
+          "ruleId": "APW-SEC-02",
+          "ruleIndex": 3,
+          "level": "error",
+          "message": {
+            "text": "SQL statement built by string concatenation. Control APW-SEC-02 requires parameterised queries for every database call."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/db.js"
+                },
+                "region": {
+                  "startLine": 47
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "f099f72da413272b"
+          },
+          "properties": {
+            "pillar": "security",
+            "control": "APW-SEC-02",
+            "severity": "critical",
+            "detectedBy": [
+              "semgrep"
+            ],
+            "nativeRuleId": "cambriks-sql-string-concat"
+          }
+        },
+        {
+          "ruleId": "APW-STD-2.4",
+          "ruleIndex": 2,
+          "level": "error",
+          "message": {
+            "text": "Clause 2.4 \u2014 Password is compared in plaintext within a SQL WHERE clause, violating the requirement to compare using a constant\u2011time hash verification. Fix: Retrieve the stored hash for the username and use a constant\u2011time compare (e.g., bcrypt.compare) instead of matching on the password column."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/db.js"
+                },
+                "region": {
+                  "startLine": 62
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "f90d7e1ed938e5be"
+          },
+          "properties": {
+            "pillar": "security",
+            "control": "APW-STD-2.4",
+            "severity": "critical",
+            "detectedBy": [
+              "cambriks-llm"
+            ],
+            "nativeRuleId": "standard-2.4"
+          }
+        },
+        {
+          "ruleId": "APW-STD-2.5",
+          "ruleIndex": 4,
+          "level": "error",
+          "message": {
+            "text": "Clause 2.5 \u2014 The session token is parsed by merely Base64\u2011decoding it without verifying any signature, allowing forged tokens to be accepted. Fix: Verify the token's HMAC signature before accepting it, e.g., split payload and sig, recompute HMAC with config.secret, compare, and only then return the user data."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/middleware/requireAuth.js"
+                },
+                "region": {
+                  "startLine": 11
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "1ddda56e3ab85994"
+          },
+          "properties": {
+            "pillar": "security",
+            "control": "APW-STD-2.5",
+            "severity": "critical",
+            "detectedBy": [
+              "cambriks-llm"
+            ],
+            "nativeRuleId": "standard-2.5"
+          }
+        },
+        {
+          "ruleId": "APW-SEC-03",
+          "ruleIndex": 5,
+          "level": "error",
+          "message": {
+            "text": "Express route is registered with a handler and no authentication middleware. Control APW-SEC-03 requires every route outside the public allowlist to pass through requireAuth."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/routes/admin.js"
+                },
+                "region": {
+                  "startLine": 10
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "99043d19ca769f13"
+          },
+          "properties": {
+            "pillar": "security",
+            "control": "APW-SEC-03",
+            "severity": "critical",
+            "detectedBy": [
+              "semgrep"
+            ],
+            "nativeRuleId": "cambriks-express-route-missing-auth"
+          }
+        },
+        {
+          "ruleId": "APW-SEC-03",
+          "ruleIndex": 5,
+          "level": "error",
+          "message": {
+            "text": "Express route is registered with a handler and no authentication middleware. Control APW-SEC-03 requires every route outside the public allowlist to pass through requireAuth."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/routes/admin.js"
+                },
+                "region": {
+                  "startLine": 14
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "d18375188a07fa59"
+          },
+          "properties": {
+            "pillar": "security",
+            "control": "APW-SEC-03",
+            "severity": "critical",
+            "detectedBy": [
+              "semgrep"
+            ],
+            "nativeRuleId": "cambriks-express-route-missing-auth"
+          }
+        },
+        {
+          "ruleId": "APW-SEC-03",
+          "ruleIndex": 5,
+          "level": "error",
+          "message": {
+            "text": "Express route is registered with a handler and no authentication middleware. Control APW-SEC-03 requires every route outside the public allowlist to pass through requireAuth."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/routes/admin.js"
+                },
+                "region": {
+                  "startLine": 19
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "5efedfb73273eff5"
+          },
+          "properties": {
+            "pillar": "security",
+            "control": "APW-SEC-03",
+            "severity": "critical",
+            "detectedBy": [
+              "semgrep"
+            ],
+            "nativeRuleId": "cambriks-express-route-missing-auth"
+          }
+        },
+        {
+          "ruleId": "APW-SEC-03",
+          "ruleIndex": 5,
+          "level": "error",
+          "message": {
+            "text": "Express route is registered with a handler and no authentication middleware. Control APW-SEC-03 requires every route outside the public allowlist to pass through requireAuth."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/routes/admin.js"
+                },
+                "region": {
+                  "startLine": 23
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "663a24482d0e23b1"
+          },
+          "properties": {
+            "pillar": "security",
+            "control": "APW-SEC-03",
+            "severity": "critical",
+            "detectedBy": [
+              "semgrep"
+            ],
+            "nativeRuleId": "cambriks-express-route-missing-auth"
+          }
+        },
+        {
+          "ruleId": "APW-STD-2.5",
+          "ruleIndex": 4,
+          "level": "error",
+          "message": {
+            "text": "Clause 2.5 \u2014 The session token is created by simple Base64 encoding of username and role, which provides no cryptographic signature and can be forged by a client. Fix: Generate the token using an HMAC (or a signing library) with the app secret, e.g., const payload = `${user.username}|${user.role}`; const sig = crypto.createHmac('sha256', config.secret).update(payload).digest('hex'); const token = Buffer.from(`${payload}|${sig}`).toString('base64');"
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/routes/auth.js"
+                },
+                "region": {
+                  "startLine": 12
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "d7755cc6bd3f4a40"
+          },
+          "properties": {
+            "pillar": "security",
+            "control": "APW-STD-2.5",
+            "severity": "critical",
+            "detectedBy": [
+              "cambriks-llm"
+            ],
+            "nativeRuleId": "standard-2.5"
+          }
+        },
+        {
+          "ruleId": "APW-SEC-05",
+          "ruleIndex": 6,
+          "level": "error",
+          "message": {
+            "text": "An authorisation decision is made from client-controlled storage. Control APW-SEC-05 requires authorisation to be enforced server-side."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "public/js/app.js"
+                },
+                "region": {
+                  "startLine": 2
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "d98d344bc2b66404"
+          },
+          "properties": {
+            "pillar": "security",
+            "control": "APW-SEC-05",
+            "severity": "high",
+            "detectedBy": [
+              "semgrep"
+            ],
+            "nativeRuleId": "cambriks-client-side-authorisation"
+          }
+        },
+        {
+          "ruleId": "APW-SEC-07",
+          "ruleIndex": 7,
+          "level": "error",
+          "message": {
+            "text": "A user account is seeded with a literal password. Seeded credentials are shared, well known, and usually survive into production."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/db.js"
+                },
+                "region": {
+                  "startLine": 27
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "4cb14e1d180a25cb"
+          },
+          "properties": {
+            "pillar": "security",
+            "control": "APW-SEC-07",
+            "severity": "high",
+            "detectedBy": [
+              "semgrep"
+            ],
+            "nativeRuleId": "cambriks-seeded-plaintext-credential"
+          }
+        },
+        {
+          "ruleId": "APW-SEC-07",
+          "ruleIndex": 7,
+          "level": "error",
+          "message": {
+            "text": "A user account is seeded with a literal password. Seeded credentials are shared, well known, and usually survive into production."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/db.js"
+                },
+                "region": {
+                  "startLine": 29
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "13b326247ecefb54"
+          },
+          "properties": {
+            "pillar": "security",
+            "control": "APW-SEC-07",
+            "severity": "high",
+            "detectedBy": [
+              "semgrep"
+            ],
+            "nativeRuleId": "cambriks-seeded-plaintext-credential"
+          }
+        },
+        {
+          "ruleId": "APW-STD-3.2",
+          "ruleIndex": 8,
+          "level": "error",
+          "message": {
+            "text": "Clause 3.2 \u2014 Bulk export endpoint does not record an audit entry naming the user, operation, and number of records exported. Fix: Add an audit log call (e.g., insertAudit(req.user.username, 'export_all', listAll().length)) before sending the response."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/routes/admin.js"
+                },
+                "region": {
+                  "startLine": 14
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "db3c3726faa5930c"
+          },
+          "properties": {
+            "pillar": "architecture",
+            "control": "APW-STD-3.2",
+            "severity": "high",
+            "detectedBy": [
+              "cambriks-llm"
+            ],
+            "nativeRuleId": "standard-3.2"
+          }
+        },
+        {
+          "ruleId": "APW-STD-3.2",
+          "ruleIndex": 8,
+          "level": "error",
+          "message": {
+            "text": "Clause 3.2 \u2014 Admin users endpoint returns the full user list, which is a bulk export and lacks an audit entry. Fix: Add an audit log call (e.g., insertAudit(req.user.username, 'export_users', result.length)) before sending the JSON response."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/routes/admin.js"
+                },
+                "region": {
+                  "startLine": 19
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "ce66e01e53926c8a"
+          },
+          "properties": {
+            "pillar": "architecture",
+            "control": "APW-STD-3.2",
+            "severity": "high",
+            "detectedBy": [
+              "cambriks-llm"
+            ],
+            "nativeRuleId": "standard-3.2"
+          }
+        },
+        {
+          "ruleId": "APW-STD-3.1",
+          "ruleIndex": 9,
+          "level": "error",
+          "message": {
+            "text": "Clause 3.1 \u2014 Route handler constructs and executes a SQL query directly via db.prepare().all() instead of using an exported data\u2011access function. Fix: Replace the direct query with a call to an exported function, e.g., `res.json(getAllUsers());` after adding `getAllUsers` to ../db."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/routes/admin.js"
+                },
+                "region": {
+                  "startLine": 20
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "8eb31b97932ba633"
+          },
+          "properties": {
+            "pillar": "architecture",
+            "control": "APW-STD-3.1",
+            "severity": "high",
+            "detectedBy": [
+              "cambriks-llm"
+            ],
+            "nativeRuleId": "standard-3.1"
+          }
+        },
+        {
+          "ruleId": "APW-STD-3.2",
+          "ruleIndex": 8,
+          "level": "error",
+          "message": {
+            "text": "Clause 3.2 \u2014 Destructive purge endpoint does not record an audit entry naming the user, operation, and number of records deleted. Fix: Add an audit log call (e.g., const info = db.prepare('SELECT COUNT(*) FROM downtime WHERE logged_at < ?').get(before); insertAudit(req.user.username, 'purge_downtime', info['COUNT(*)'])) before responding."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/routes/admin.js"
+                },
+                "region": {
+                  "startLine": 23
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "0b7e2b00b0678106"
+          },
+          "properties": {
+            "pillar": "architecture",
+            "control": "APW-STD-3.2",
+            "severity": "high",
+            "detectedBy": [
+              "cambriks-llm"
+            ],
+            "nativeRuleId": "standard-3.2"
+          }
+        },
+        {
+          "ruleId": "APW-STD-3.1",
+          "ruleIndex": 9,
+          "level": "error",
+          "message": {
+            "text": "Clause 3.1 \u2014 Route handler constructs and executes a DELETE query directly via db.prepare().run() instead of using an exported data\u2011access function. Fix: Replace the direct query with a call to an exported function, e.g., `purgeDowntime(before);` after adding `purgeDowntime` to ../db."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/routes/admin.js"
+                },
+                "region": {
+                  "startLine": 25
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "f87c2baf74742e54"
+          },
+          "properties": {
+            "pillar": "architecture",
+            "control": "APW-STD-3.1",
+            "severity": "high",
+            "detectedBy": [
+              "cambriks-llm"
+            ],
+            "nativeRuleId": "standard-3.1"
+          }
+        },
+        {
+          "ruleId": "APW-DEP-03",
+          "ruleIndex": 10,
+          "level": "error",
+          "message": {
+            "text": "No Express error-handling middleware. Unhandled errors return a stack trace to the client. Add app.use((err, req, res, next) => ...) after the routes."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/server.js"
+                },
+                "region": {
+                  "startLine": 26
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "609576f5dd20ffb7"
+          },
+          "properties": {
+            "pillar": "deployment",
+            "control": "APW-DEP-03",
+            "severity": "high",
+            "detectedBy": [
+              "cambriks-deployment"
+            ],
+            "nativeRuleId": "deploy-no-error-handler"
+          }
+        },
+        {
+          "ruleId": "APW-DEP-05",
+          "ruleIndex": 11,
+          "level": "error",
+          "message": {
+            "text": "A credential value is written to the log. Anyone with log access has the secret. Remove the statement."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/server.js"
+                },
+                "region": {
+                  "startLine": 32
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "8f3d44ab2d305354"
+          },
+          "properties": {
+            "pillar": "deployment",
+            "control": "APW-DEP-05",
+            "severity": "high",
+            "detectedBy": [
+              "cambriks-deployment"
+            ],
+            "nativeRuleId": "deploy-secret-in-log"
+          }
+        },
+        {
+          "ruleId": "APW-BRAND-01",
+          "ruleIndex": 12,
+          "level": "warning",
+          "message": {
+            "text": "#f5f5f5 is not in the Anand Precision Works palette. Use one of: apw-alert, apw-amber, apw-concrete, apw-ink, apw-paper, apw-steel."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "public/css/admin.css"
+                },
+                "region": {
+                  "startLine": 5
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "ee9e74f929dd36a0"
+          },
+          "properties": {
+            "pillar": "brand",
+            "control": "APW-BRAND-01",
+            "severity": "medium",
+            "detectedBy": [
+              "cambriks-brand"
+            ],
+            "nativeRuleId": "brand-off-palette-colour"
+          }
+        },
+        {
+          "ruleId": "APW-BRAND-01",
+          "ruleIndex": 12,
+          "level": "warning",
+          "message": {
+            "text": "#333333 is not in the Anand Precision Works palette. Use one of: apw-alert, apw-amber, apw-concrete, apw-ink, apw-paper, apw-steel."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "public/css/admin.css"
+                },
+                "region": {
+                  "startLine": 6
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "008c548e385bf1af"
+          },
+          "properties": {
+            "pillar": "brand",
+            "control": "APW-BRAND-01",
+            "severity": "medium",
+            "detectedBy": [
+              "cambriks-brand"
+            ],
+            "nativeRuleId": "brand-off-palette-colour"
+          }
+        },
+        {
+          "ruleId": "APW-BRAND-01",
+          "ruleIndex": 12,
+          "level": "warning",
+          "message": {
+            "text": "#3498db is not in the Anand Precision Works palette. Use one of: apw-alert, apw-amber, apw-concrete, apw-ink, apw-paper, apw-steel."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "public/css/admin.css"
+                },
+                "region": {
+                  "startLine": 10
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "5e23a6117226e1a6"
+          },
+          "properties": {
+            "pillar": "brand",
+            "control": "APW-BRAND-01",
+            "severity": "medium",
+            "detectedBy": [
+              "cambriks-brand"
+            ],
+            "nativeRuleId": "brand-off-palette-colour"
+          }
+        },
+        {
+          "ruleId": "APW-BRAND-01",
+          "ruleIndex": 12,
+          "level": "warning",
+          "message": {
+            "text": "#dddddd is not in the Anand Precision Works palette. Use one of: apw-alert, apw-amber, apw-concrete, apw-ink, apw-paper, apw-steel."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "public/css/admin.css"
+                },
+                "region": {
+                  "startLine": 17
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "d250a3bf76d3a1d2"
+          },
+          "properties": {
+            "pillar": "brand",
+            "control": "APW-BRAND-01",
+            "severity": "medium",
+            "detectedBy": [
+              "cambriks-brand"
+            ],
+            "nativeRuleId": "brand-off-palette-colour"
+          }
+        },
+        {
+          "ruleId": "APW-BRAND-01",
+          "ruleIndex": 12,
+          "level": "warning",
+          "message": {
+            "text": "#2ecc71 is not in the Anand Precision Works palette. Use one of: apw-alert, apw-amber, apw-concrete, apw-ink, apw-paper, apw-steel."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "public/css/admin.css"
+                },
+                "region": {
+                  "startLine": 25
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "1d1c4b3d0c4c7982"
+          },
+          "properties": {
+            "pillar": "brand",
+            "control": "APW-BRAND-01",
+            "severity": "medium",
+            "detectedBy": [
+              "cambriks-brand"
+            ],
+            "nativeRuleId": "brand-off-palette-colour"
+          }
+        },
+        {
+          "ruleId": "APW-BRAND-01",
+          "ruleIndex": 12,
+          "level": "warning",
+          "message": {
+            "text": "#e74c3c is not in the Anand Precision Works palette. Use one of: apw-alert, apw-amber, apw-concrete, apw-ink, apw-paper, apw-steel."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "public/css/admin.css"
+                },
+                "region": {
+                  "startLine": 34
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "d3bb71c1e3dafb25"
+          },
+          "properties": {
+            "pillar": "brand",
+            "control": "APW-BRAND-01",
+            "severity": "medium",
+            "detectedBy": [
+              "cambriks-brand"
+            ],
+            "nativeRuleId": "brand-off-palette-colour"
+          }
+        },
+        {
+          "ruleId": "APW-BRAND-01",
+          "ruleIndex": 12,
+          "level": "warning",
+          "message": {
+            "text": "#9b59b6 is not in the Anand Precision Works palette. Use one of: apw-alert, apw-amber, apw-concrete, apw-ink, apw-paper, apw-steel."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "public/css/admin.css"
+                },
+                "region": {
+                  "startLine": 42
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "ac47301e6ce5be37"
+          },
+          "properties": {
+            "pillar": "brand",
+            "control": "APW-BRAND-01",
+            "severity": "medium",
+            "detectedBy": [
+              "cambriks-brand"
+            ],
+            "nativeRuleId": "brand-off-palette-colour"
+          }
+        },
+        {
+          "ruleId": "APW-BRAND-01",
+          "ruleIndex": 12,
+          "level": "warning",
+          "message": {
+            "text": "#7f8c8d is not in the Anand Precision Works palette. Use one of: apw-alert, apw-amber, apw-concrete, apw-ink, apw-paper, apw-steel."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "public/css/admin.css"
+                },
+                "region": {
+                  "startLine": 43
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "977122e91dc0f71a"
+          },
+          "properties": {
+            "pillar": "brand",
+            "control": "APW-BRAND-01",
+            "severity": "medium",
+            "detectedBy": [
+              "cambriks-brand"
+            ],
+            "nativeRuleId": "brand-off-palette-colour"
+          }
+        },
+        {
+          "ruleId": "APW-BRAND-01",
+          "ruleIndex": 12,
+          "level": "warning",
+          "message": {
+            "text": "#f39c12 is not in the Anand Precision Works palette. Use one of: apw-alert, apw-amber, apw-concrete, apw-ink, apw-paper, apw-steel."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "public/css/admin.css"
+                },
+                "region": {
+                  "startLine": 44
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "6a091dc7e1791f0d"
+          },
+          "properties": {
+            "pillar": "brand",
+            "control": "APW-BRAND-01",
+            "severity": "medium",
+            "detectedBy": [
+              "cambriks-brand"
+            ],
+            "nativeRuleId": "brand-off-palette-colour"
+          }
+        },
+        {
+          "ruleId": "APW-SEC-04",
+          "ruleIndex": 13,
+          "level": "warning",
+          "message": {
+            "text": "Data is written to innerHTML without escaping. Control APW-SEC-04 requires DOM text to be set with textContent."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "public/js/app.js"
+                },
+                "region": {
+                  "startLine": 7
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "da2621e3eb82d51f"
+          },
+          "properties": {
+            "pillar": "security",
+            "control": "APW-SEC-04",
+            "severity": "medium",
+            "detectedBy": [
+              "semgrep"
+            ],
+            "nativeRuleId": "cambriks-innerhtml-assignment"
+          }
+        },
+        {
+          "ruleId": "APW-STD-4.1",
+          "ruleIndex": 14,
+          "level": "warning",
+          "message": {
+            "text": "Clause 4.1 \u2014 The handler accepts a machine identifier via the query parameter `machine` but does not validate its format before passing it to `findByMachine`. Fix: Add validation of `req.query.machine` against the pattern /^[A-Z]{3}-\\d{2}$/ and return a 400 error if it does not match before calling `findByMachine`."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/routes/logs.js"
+                },
+                "region": {
+                  "startLine": 11
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "05c6fadc098512b1"
+          },
+          "properties": {
+            "pillar": "correctness",
+            "control": "APW-STD-4.1",
+            "severity": "medium",
+            "detectedBy": [
+              "cambriks-llm"
+            ],
+            "nativeRuleId": "standard-4.1"
+          }
+        },
+        {
+          "ruleId": "APW-STD-4.1",
+          "ruleIndex": 14,
+          "level": "warning",
+          "message": {
+            "text": "Clause 4.1 \u2014 The handler accepts a machine identifier in the request body (`req.body.machine`) but does not validate its format before inserting the log entry. Fix: Validate `req.body.machine` against the pattern /^[A-Z]{3}-\\d{2}$/ and return a 400 error if invalid before proceeding with `insertLog`."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/routes/logs.js"
+                },
+                "region": {
+                  "startLine": 15
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "71d43cd2bfe06c05"
+          },
+          "properties": {
+            "pillar": "correctness",
+            "control": "APW-STD-4.1",
+            "severity": "medium",
+            "detectedBy": [
+              "cambriks-llm"
+            ],
+            "nativeRuleId": "standard-4.1"
+          }
+        },
+        {
+          "ruleId": "APW-STD-4.2",
+          "ruleIndex": 15,
+          "level": "warning",
+          "message": {
+            "text": "Clause 4.2 \u2014 The '/logs' POST handler accepts a 'minutes' field but does not validate that it is a positive integer \u2264 480 before inserting into the database. Fix: Add a validation check for req.body.minutes (e.g., if (!Number.isInteger(minutes) || minutes <= 0 || minutes > 480) return res.status(400).json({ error: 'Invalid minutes' })); before calling insertLog."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/routes/logs.js"
+                },
+                "region": {
+                  "startLine": 15
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "b15b87e95891899a"
+          },
+          "properties": {
+            "pillar": "correctness",
+            "control": "APW-STD-4.2",
+            "severity": "medium",
+            "detectedBy": [
+              "cambriks-llm"
+            ],
+            "nativeRuleId": "standard-4.2"
+          }
+        },
+        {
+          "ruleId": "APW-DEP-02",
+          "ruleIndex": 16,
+          "level": "warning",
+          "message": {
+            "text": "No health or readiness endpoint. Orchestrators and load balancers cannot tell whether this process is serving. Add GET /health."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/server.js"
+                },
+                "region": {
+                  "startLine": 11
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "b02f7a3f67748692"
+          },
+          "properties": {
+            "pillar": "deployment",
+            "control": "APW-DEP-02",
+            "severity": "medium",
+            "detectedBy": [
+              "cambriks-deployment"
+            ],
+            "nativeRuleId": "deploy-no-health-endpoint"
+          }
+        },
+        {
+          "ruleId": "APW-BRAND-03",
+          "ruleIndex": 17,
+          "level": "note",
+          "message": {
+            "text": "Typeface set directly instead of var(--apw-font)."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "public/css/admin.css"
+                },
+                "region": {
+                  "startLine": 4
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "1f13709cf1ceb228"
+          },
+          "properties": {
+            "pillar": "brand",
+            "control": "APW-BRAND-03",
+            "severity": "low",
+            "detectedBy": [
+              "cambriks-brand"
+            ],
+            "nativeRuleId": "brand-off-brand-typeface"
+          }
+        },
+        {
+          "ruleId": "APW-COR-01",
+          "ruleIndex": 18,
+          "level": "note",
+          "message": {
+            "text": "A promise chain has no rejection handler. A network or parse failure here is silent. Add .catch() and surface the failure."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "public/js/app.js"
+                },
+                "region": {
+                  "startLine": 14
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "4255a3694c13f365"
+          },
+          "properties": {
+            "pillar": "correctness",
+            "control": "APW-COR-01",
+            "severity": "low",
+            "detectedBy": [
+              "semgrep"
+            ],
+            "nativeRuleId": "cambriks-unhandled-promise-chain"
+          }
+        },
+        {
+          "ruleId": "APW-COR-01",
+          "ruleIndex": 18,
+          "level": "note",
+          "message": {
+            "text": "A promise chain has no rejection handler. A network or parse failure here is silent. Add .catch() and surface the failure."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "public/js/app.js"
+                },
+                "region": {
+                  "startLine": 18
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "4ae7541161571292"
+          },
+          "properties": {
+            "pillar": "correctness",
+            "control": "APW-COR-01",
+            "severity": "low",
+            "detectedBy": [
+              "semgrep"
+            ],
+            "nativeRuleId": "cambriks-unhandled-promise-chain"
+          }
+        },
+        {
+          "ruleId": "APW-COR-01",
+          "ruleIndex": 18,
+          "level": "note",
+          "message": {
+            "text": "A promise chain has no rejection handler. A network or parse failure here is silent. Add .catch() and surface the failure."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "public/js/app.js"
+                },
+                "region": {
+                  "startLine": 28
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "b9e8158e7102282d"
+          },
+          "properties": {
+            "pillar": "correctness",
+            "control": "APW-COR-01",
+            "severity": "low",
+            "detectedBy": [
+              "semgrep"
+            ],
+            "nativeRuleId": "cambriks-unhandled-promise-chain"
+          }
+        },
+        {
+          "ruleId": "APW-DEP-04",
+          "ruleIndex": 19,
+          "level": "note",
+          "message": {
+            "text": "No SIGTERM handler. In-flight requests are dropped on every deploy. Stop accepting connections, drain, then close the database."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "src/server.js"
+                },
+                "region": {
+                  "startLine": 30
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "0a17d9ce23115194"
+          },
+          "properties": {
+            "pillar": "deployment",
+            "control": "APW-DEP-04",
+            "severity": "low",
+            "detectedBy": [
+              "cambriks-deployment"
+            ],
+            "nativeRuleId": "deploy-no-graceful-shutdown"
+          }
+        },
+        {
+          "ruleId": "APW-BRAND-02",
+          "ruleIndex": 20,
+          "level": "note",
+          "message": {
+            "text": "Colour hardcoded in an inline style. Move it to a class using tokens."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "views/admin.html"
+                },
+                "region": {
+                  "startLine": 10
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "db15bb6375114276"
+          },
+          "properties": {
+            "pillar": "brand",
+            "control": "APW-BRAND-02",
+            "severity": "low",
+            "detectedBy": [
+              "cambriks-brand"
+            ],
+            "nativeRuleId": "brand-inline-style-colour"
+          }
+        },
+        {
+          "ruleId": "APW-BRAND-02",
+          "ruleIndex": 20,
+          "level": "note",
+          "message": {
+            "text": "Colour hardcoded in an inline style. Move it to a class using tokens."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "views/admin.html"
+                },
+                "region": {
+                  "startLine": 11
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "0d272f1ca95e476a"
+          },
+          "properties": {
+            "pillar": "brand",
+            "control": "APW-BRAND-02",
+            "severity": "low",
+            "detectedBy": [
+              "cambriks-brand"
+            ],
+            "nativeRuleId": "brand-inline-style-colour"
+          }
+        },
+        {
+          "ruleId": "APW-BRAND-02",
+          "ruleIndex": 20,
+          "level": "note",
+          "message": {
+            "text": "Colour hardcoded in an inline style. Move it to a class using tokens."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "views/admin.html"
+                },
+                "region": {
+                  "startLine": 20
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "582d632144eba958"
+          },
+          "properties": {
+            "pillar": "brand",
+            "control": "APW-BRAND-02",
+            "severity": "low",
+            "detectedBy": [
+              "cambriks-brand"
+            ],
+            "nativeRuleId": "brand-inline-style-colour"
+          }
+        },
+        {
+          "ruleId": "APW-BRAND-02",
+          "ruleIndex": 20,
+          "level": "note",
+          "message": {
+            "text": "Colour hardcoded in an inline style. Move it to a class using tokens."
+          },
+          "locations": [
+            {
+              "physicalLocation": {
+                "artifactLocation": {
+                  "uri": "views/admin.html"
+                },
+                "region": {
+                  "startLine": 25
+                }
+              }
+            }
+          ],
+          "partialFingerprints": {
+            "cambriks/v1": "9c9173d05838c73e"
+          },
+          "properties": {
+            "pillar": "brand",
+            "control": "APW-BRAND-02",
+            "severity": "low",
+            "detectedBy": [
+              "cambriks-brand"
+            ],
+            "nativeRuleId": "brand-inline-style-colour"
+          }
+        }
+      ]
+    }
+  ]
+}
