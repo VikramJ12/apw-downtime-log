@@ -9,4 +9,4 @@ rendered reports, a SARIF file, and an append-only run history.
 - `runs/` — one directory per audited commit
 - `history.json` — score and counts per run, append only
 
-Last run: `5f2935f` · gate **fail** · 46 findings · score 0
+Last run: `c60749f` · gate **fail** · 46 findings · score 0

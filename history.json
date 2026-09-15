@@ -69,5 +69,20 @@
       "medium": 14,
       "low": 9
     }
+  },
+  {
+    "at": "2026-09-15T16:29:12+00:00",
+    "ref": "c60749f",
+    "label": "PR #3",
+    "total": 46,
+    "score": 0,
+    "passed": false,
+    "counts": {
+      "critical": 13,
+      "high": 9,
+      "medium": 14,
+      "low": 9,
+      "info": 1
+    }
   }
 ]
