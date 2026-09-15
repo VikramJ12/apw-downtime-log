@@ -27,5 +27,19 @@
       "low": 9,
       "info": 1
     }
+  },
+  {
+    "at": "2026-09-15T03:34:18+00:00",
+    "ref": "e3b248d",
+    "label": "PR #1",
+    "total": 48,
+    "score": 0,
+    "passed": false,
+    "counts": {
+      "critical": 16,
+      "high": 9,
+      "medium": 14,
+      "low": 9
+    }
   }
 ]
