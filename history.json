@@ -84,5 +84,19 @@
       "low": 9,
       "info": 1
     }
+  },
+  {
+    "at": "2026-09-17T02:42:05+00:00",
+    "ref": "83fa217",
+    "label": "PR #4",
+    "total": 48,
+    "score": 0,
+    "passed": false,
+    "counts": {
+      "critical": 16,
+      "high": 9,
+      "medium": 14,
+      "low": 9
+    }
   }
 ]
