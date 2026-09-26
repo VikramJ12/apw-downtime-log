@@ -1,6 +1,10 @@
 # Drop this into the demo repo as .github/workflows/cambriks.yml
 name: Cambriks
 
+concurrency:
+  group: cambriks-${{ github.ref }}
+  cancel-in-progress: true
+
 on:
   pull_request:
   push:
@@ -13,6 +17,7 @@ jobs:
       contents: write
       pull-requests: write
       statuses: write
+      checks: write
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/cambriks
