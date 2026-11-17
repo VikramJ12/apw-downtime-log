@@ -168,5 +168,19 @@
       "medium": 14,
       "low": 9
     }
+  },
+  {
+    "at": "2026-11-17T06:31:12+00:00",
+    "ref": "8667310",
+    "label": "main @ 8667310",
+    "total": 48,
+    "score": 0,
+    "passed": false,
+    "counts": {
+      "critical": 16,
+      "high": 9,
+      "medium": 14,
+      "low": 9
+    }
   }
 ]
