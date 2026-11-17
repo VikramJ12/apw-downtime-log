@@ -1,5 +1,5 @@
 # Audit report
-`apw-baseline-v1@1.0` · 48 findings · gate **FAIL**
+`apw-baseline-v1@1.0` · 49 findings · gate **FAIL**
 | Critical | High | Medium | Low |
 |---|---|---|---|
 | 16 | 9 | 14 | 9 |
@@ -43,13 +43,13 @@ generic-api-key has detected secret for file src/config.js.
 
 **CRITICAL** · `src/db.js:28` · `APW-STD-2.4`
 
-Clause 2.4 — Plaintext password literal is inserted into the users table, violating the requirement to store only salted hashes. Fix: Hash the password before inserting, e.g., const hashed = await bcrypt.hash('welcome123', saltRounds); then .run('operator1', hashed, 'operator');
+Clause 2.4 — Plaintext password is inserted into the database during seeding, violating the requirement to store only salted hashes. Fix: Hash the password before inserting, e.g., const hash = await bcrypt.hash('welcome123', 10); then use .run('operator1', hash, 'operator');
 
 <sub>standard-2.4 — found by cambriks-llm</sub>
 
 **CRITICAL** · `src/db.js:30` · `APW-STD-2.4`
 
-Clause 2.4 — Plaintext password literal is inserted into the users table for the supervisor account. Fix: Hash the password before inserting, e.g., const hashed = await bcrypt.hash('welcome123', saltRounds); then .run('supervisor', hashed, 'supervisor');
+Clause 2.4 — Plaintext password is inserted into the database during seeding for the supervisor user. Fix: Hash the password before inserting, e.g., const hash = await bcrypt.hash('welcome123', 10); then use .run('supervisor', hash, 'supervisor');
 
 <sub>standard-2.4 — found by cambriks-llm</sub>
 
@@ -61,13 +61,13 @@ SQL statement built by string concatenation. Control APW-SEC-02 requires paramet
 
 **CRITICAL** · `src/db.js:62` · `APW-STD-2.4`
 
-Clause 2.4 — Password is compared directly in a SQL WHERE clause, meaning plaintext passwords are used for authentication instead of hashed verification. Fix: Retrieve the user by username only, then compare the supplied password with the stored hash using a constant‑time function (e.g., bcrypt.compare).
+Clause 2.4 — User lookup compares the supplied password directly against the stored plaintext password in a SQL WHERE clause, violating the hashed‑password requirement. Fix: Retrieve the user by username only, then verify the password with a constant‑time hash comparison (e.g., bcrypt.compare(password, user.password)).
 
 <sub>standard-2.4 — found by cambriks-llm</sub>
 
 **CRITICAL** · `src/middleware/requireAuth.js:11` · `APW-STD-2.5`
 
-Clause 2.5 — The session token is parsed by decoding Base64 and extracting fields without verifying any signature, violating the requirement for signed tokens. Fix: After decoding, verify the token's HMAC signature using the shared secret before trusting its contents.
+Clause 2.5 — The middleware decodes the Base64‑encoded session cookie without verifying any signature, allowing a client to modify the token arbitrarily. Fix: Verify the token’s signature before decoding, e.g., split the token into signature and payload, recompute the HMAC with the secret and compare, then decode the payload only if the signature matches.
 
 <sub>standard-2.5 — found by cambriks-llm</sub>
 
@@ -97,7 +97,7 @@ Express route is registered with a handler and no authentication middleware. Con
 
 **CRITICAL** · `src/routes/auth.js:12` · `APW-STD-2.5`
 
-Clause 2.5 — The session token is created by simple Base64 encoding of username and role without any cryptographic signature, making it forgeable. Fix: Generate the token using an HMAC (e.g., crypto.createHmac('sha256', config.secret).update(`${user.username}|${user.role}`).digest('hex')) and include the signature, then verify it on each request.
+Clause 2.5 — The session token is created by simple Base64 encoding of user data, which provides no cryptographic signature and can be forged by a client. Fix: Generate the token using a HMAC (or a signed JWT) that includes the username and role, e.g., `const payload = `${user.username}|${user.role}`; const token = crypto.createHmac('sha256', config.secret).update(payload).digest('hex') + '.' + Buffer.from(payload).toString('base64');` and set that as the cookie.
 
 <sub>standard-2.5 — found by cambriks-llm</sub>
 
@@ -121,25 +121,25 @@ A user account is seeded with a literal password. Seeded credentials are shared,
 
 **HIGH** · `src/routes/admin.js:14` · `APW-STD-3.2`
 
-Clause 3.2 — Bulk export endpoint does not record an audit entry naming the user, operation, and number of records exported. Fix: Insert an audit log call before responding, e.g., auditLog(req.user.username, 'export', listAll().length);
+Clause 3.2 — The bulk export endpoint does not record an audit entry naming the user, operation, and number of records exported. Fix: Add an audit log call before sending the response, e.g., `auditLog(req.user.username, 'export', listAll().length);`
 
 <sub>standard-3.2 — found by cambriks-llm</sub>
 
 **HIGH** · `src/routes/admin.js:20` · `APW-STD-3.1`
 
-Clause 3.1 — Route handler constructs and executes a SQL query directly via db.prepare().all(), bypassing the data access module. Fix: Replace the direct query with a call to an exported function from db.js, e.g., getAllUsers(), and remove the direct db import if not needed.
+Clause 3.1 — Route handler constructs and executes a SQL query directly via db.prepare().all(), bypassing the data access module. Fix: Replace the direct db.prepare call with an exported function from db.js (e.g., getAllUsers()) and use that function here.
 
 <sub>standard-3.1 — found by cambriks-llm</sub>
 
 **HIGH** · `src/routes/admin.js:23` · `APW-STD-3.2`
 
-Clause 3.2 — Destructive purge endpoint does not record an audit entry naming the user, operation, and number of records deleted. Fix: Insert an audit log call after deletion, e.g., const info = db.prepare('DELETE FROM downtime WHERE logged_at < ?').run(before); auditLog(req.user.username, 'purge', info.changes);
+Clause 3.2 — The destructive purge endpoint does not record an audit entry naming the user, operation, and number of records deleted. Fix: After the DELETE run, capture `result.changes` and log it, e.g., `const result = db.prepare(...).run(before); auditLog(req.user.username, 'purge', result.changes);`
 
 <sub>standard-3.2 — found by cambriks-llm</sub>
 
 **HIGH** · `src/routes/admin.js:25` · `APW-STD-3.1`
 
-Clause 3.1 — Route handler constructs and executes a SQL DELETE query directly via db.prepare().run(), bypassing the data access module. Fix: Replace the direct query with an exported function from db.js, e.g., purgeDowntimeBefore(date), and remove the direct db import if not needed.
+Clause 3.1 — Route handler constructs and executes a SQL DELETE query directly via db.prepare().run(), bypassing the data access module. Fix: Replace the direct db.prepare call with an exported function from db.js (e.g., purgeDowntime(before)) and use that function here.
 
 <sub>standard-3.1 — found by cambriks-llm</sub>
 
@@ -166,19 +166,19 @@ Data is written to innerHTML without escaping. Control APW-SEC-04 requires DOM t
 ### `src/routes/logs.js`
 **MEDIUM** · line 11 · `APW-STD-4.1`
 
-Clause 4.1 — The handler accepts a machine identifier via query parameter but does not validate it against the required XXX‑NN pattern before use. Fix: Add validation of req.query.machine with a regex (e.g., /^[A-Z]{3}-\d{2}$/) and return a 400 error if it does not match before calling findByMachine.
+Clause 4.1 — The handler accepts a machine identifier via query parameter 'machine' but does not validate it against the required XXX-NN pattern before use. Fix: Add validation of req.query.machine against /^[A-Z]{3}-\d{2}$/ and return an error (e.g., 400) if it does not match before calling findByMachine.
 
 <sub>standard-4.1 — found by cambriks-llm</sub>
 
 **MEDIUM** · line 15 · `APW-STD-4.1`
 
-Clause 4.1 — The handler accepts a machine identifier in the request body but does not validate it against the required XXX‑NN pattern before use. Fix: Validate req.body.machine with a regex (e.g., /^[A-Z]{3}-\d{2}$/) and return a 400 error if invalid before inserting the log entry.
+Clause 4.1 — The handler accepts a machine identifier in the request body but does not validate it against the required XXX-NN pattern before inserting the log. Fix: Validate req.body.machine against /^[A-Z]{3}-\d{2}$/ and reject the request (e.g., 400) if it does not match before calling insertLog.
 
 <sub>standard-4.1 — found by cambriks-llm</sub>
 
 **MEDIUM** · line 15 · `APW-STD-4.2`
 
-Clause 4.2 — The handler for POST /logs accepts a 'minutes' field but does not validate that it is a positive integer ≤ 480 before writing to the database. Fix: Add a validation check for req.body.minutes (e.g., if (!Number.isInteger(minutes) || minutes <= 0 || minutes > 480) return res.status(400).json({ error: 'Invalid minutes' });) before calling insertLog.
+Clause 4.2 — The '/logs' POST handler accepts a 'minutes' field but does not validate that it is a positive integer ≤ 480 before writing to the database. Fix: Add a validation check for req.body.minutes (e.g., if (!Number.isInteger(minutes) || minutes <= 0 || minutes > 480) return res.status(400).json({ error: 'Invalid minutes' })); before calling insertLog.
 
 <sub>standard-4.2 — found by cambriks-llm</sub>
 
@@ -214,6 +214,13 @@ A promise chain has no rejection handler. A network or parse failure here is sil
 No SIGTERM handler. In-flight requests are dropped on every deploy. Stop accepting connections, drain, then close the database.
 
 <sub>Services shut down gracefully — found by cambriks-deployment</sub>
+
+### `src/routes/admin.js`
+**INFO** · line 19 · `APW-STD-3.2`
+
+Clause 3.2 — The admin users listing endpoint returns the full user dataset, which is a bulk export and should record an audit entry. Fix: Add an audit log before responding, e.g., `const users = db.prepare(...).all(); auditLog(req.user.username, 'list_users', users.length); res.json(users);`
+
+<sub>standard-3.2 — found by cambriks-llm</sub>
 
 ## Brand conformance · 14 findings
 Mechanical and safe to fix in one pass. None of these block the gate on their own.

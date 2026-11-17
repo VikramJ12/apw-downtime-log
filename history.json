@@ -182,5 +182,20 @@
       "medium": 14,
       "low": 9
     }
+  },
+  {
+    "at": "2026-11-17T06:33:51+00:00",
+    "ref": "bd17643",
+    "label": "main @ bd17643",
+    "total": 49,
+    "score": 0,
+    "passed": false,
+    "counts": {
+      "critical": 16,
+      "high": 9,
+      "medium": 14,
+      "low": 9,
+      "info": 1
+    }
   }
 ]

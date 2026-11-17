@@ -2,9 +2,9 @@
 
 **Standard:** Anand Precision Works — baseline engineering standard  
 **Gate:** FAIL  
-**Open findings:** 48
+**Open findings:** 49
 
-The gate is closed. Of 48 open findings, 16 critical and 9 high exceed what the standard allows. Security is the weakest area, carrying 19 of the findings including 15 critical. 12 findings came from checking the code against clauses of the written standard that no scanner can express.
+The gate is closed. Of 49 open findings, 16 critical and 9 high exceed what the standard allows. Security is the weakest area, carrying 19 of the findings including 15 critical. 13 findings came from checking the code against clauses of the written standard that no scanner can express.
 
 | Area | Score | Critical | High | Medium | Low |
 |---|---|---|---|---|---|
@@ -20,6 +20,6 @@ The gate is closed. Of 48 open findings, 16 critical and 9 high exceed what the 
 |---|---|
 | Semgrep | 15 |
 | Brand agent | 14 |
-| Standard agent | 12 |
+| Standard agent | 13 |
 | Deployment agent | 5 |
 | gitleaks | 3 |
